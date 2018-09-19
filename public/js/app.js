@@ -48739,19 +48739,39 @@ var render = function() {
       }
     }),
     _vm._v(" "),
-    _c("div", { staticClass: "media-body" }, [
-      _c("p", { staticClass: "mb-2" }, [
-        _c("strong", { staticClass: "mr-2" }, [
-          _vm._v("\n\t\t\t\t" + _vm._s(_vm.comment.user.name) + "\n\t\t\t")
+    _c(
+      "div",
+      { staticClass: "media-body" },
+      [
+        _c("p", { staticClass: "mb-2" }, [
+          _c("strong", { staticClass: "mr-2" }, [
+            _vm._v("\n\t\t\t\t" + _vm._s(_vm.comment.user.name) + "\n\t\t\t")
+          ]),
+          _vm._v(" "),
+          _c("small", { staticClass: "text-muted" }, [
+            _vm._v("\n\t\t\t\t" + _vm._s(_vm.comment.created_at) + "\n\t\t\t")
+          ])
         ]),
         _vm._v(" "),
-        _c("small", { staticClass: "text-muted" }, [
-          _vm._v("\n\t\t\t\t" + _vm._s(_vm.comment.created_at) + "\n\t\t\t")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("p", [_vm._v("\n\t\t\t" + _vm._s(_vm.comment.body) + "\n\t\t")])
-    ])
+        _c("p", [_vm._v("\n\t\t\t" + _vm._s(_vm.comment.body) + "\n\t\t")]),
+        _vm._v(" "),
+        _vm.comment.children
+          ? [
+              _c(
+                "ul",
+                { staticClass: "list-unstyled" },
+                _vm._l(_vm.comment.children, function(child) {
+                  return _c("comment", {
+                    key: child.id,
+                    attrs: { comment: child }
+                  })
+                })
+              )
+            ]
+          : _vm._e()
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = []
@@ -48770,6 +48790,18 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Comment__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Comment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Comment__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -48797,12 +48829,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'comment',
+
 	props: {
 		comment: {
 			required: true,
 			type: Object
 		}
+	},
+
+	components: {
+		Comment: __WEBPACK_IMPORTED_MODULE_0__Comment___default.a
 	}
 });
 
