@@ -17,6 +17,16 @@
 
 		components: {
 			NewComment
+		},
+
+		methods: {
+			prependComment (comment) {
+				console.log(comment)
+			}
+		},
+
+		mounted () {
+			window.events.$on('comment:stored', this.prependComment)
 		}
 	}
 </script>
