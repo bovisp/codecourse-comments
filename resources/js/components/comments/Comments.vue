@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<h3 class="mb-5">{{ meta.total }} comments</h3>
+
 		<new-comment :endpoint="endpoint" />
 
 		<template v-if="comments.length">
@@ -34,7 +36,8 @@
 
 		data () {
 			return {
-				comments: []
+				comments: [],
+				meta: {}
 			}
 		},
 
@@ -48,6 +51,7 @@
 				let response = await axios.get(`${this.endpoint}?page=${page}`)
 
 				this.comments = response.data.data
+				this.meta = response.data.meta
 			},
 
 			prepend (comment) {
