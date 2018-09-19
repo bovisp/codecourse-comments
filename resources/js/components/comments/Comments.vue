@@ -19,6 +19,12 @@
 			role="alert"
 			v-else
 		>No comments to display</div>
+
+		<button 
+			class="btn btn-light btn-block"
+			@click.prevent="more"
+			v-if="meta.current_page < meta.last_page"
+		>Show more</button>
 	</div>
 </template>
 
@@ -51,6 +57,13 @@
 				let response = await axios.get(`${this.endpoint}?page=${page}`)
 
 				this.comments = response.data.data
+				this.meta = response.data.meta
+			},
+
+			async more () {
+				let response = await axios.get(`${this.endpoint}?page=${this.meta.current_page + 1}`)
+
+				this.comments.push(...response.data.data)
 				this.meta = response.data.meta
 			},
 
