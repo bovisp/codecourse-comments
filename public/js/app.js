@@ -47522,26 +47522,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 			return fetch;
 		}(),
-		more: function () {
+		fetchMeta: function () {
 			var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-				var _comments;
-
 				var response;
 				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
 					while (1) {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								_context2.next = 2;
-								return axios.get(this.endpoint + '?page=' + (this.meta.current_page + 1));
+								return axios.get(this.endpoint + '?page=' + this.meta.current_page);
 
 							case 2:
 								response = _context2.sent;
 
 
-								(_comments = this.comments).push.apply(_comments, _toConsumableArray(response.data.data));
 								this.meta = response.data.meta;
 
-							case 5:
+							case 4:
 							case 'end':
 								return _context2.stop();
 						}
@@ -47549,15 +47546,76 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 				}, _callee2, this);
 			}));
 
-			function more() {
+			function fetchMeta() {
 				return _ref2.apply(this, arguments);
+			}
+
+			return fetchMeta;
+		}(),
+		more: function () {
+			var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+				var _comments;
+
+				var response;
+				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+					while (1) {
+						switch (_context3.prev = _context3.next) {
+							case 0:
+								_context3.next = 2;
+								return axios.get(this.endpoint + '?page=' + (this.meta.current_page + 1));
+
+							case 2:
+								response = _context3.sent;
+
+
+								(_comments = this.comments).push.apply(_comments, _toConsumableArray(response.data.data));
+								this.meta = response.data.meta;
+
+							case 5:
+							case 'end':
+								return _context3.stop();
+						}
+					}
+				}, _callee3, this);
+			}));
+
+			function more() {
+				return _ref3.apply(this, arguments);
 			}
 
 			return more;
 		}(),
-		prepend: function prepend(comment) {
-			console.log(comment);
-		}
+		prepend: function () {
+			var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4(comment) {
+				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+					while (1) {
+						switch (_context4.prev = _context4.next) {
+							case 0:
+								this.comments.unshift(comment);
+
+								_context4.next = 3;
+								return this.fetchMeta();
+
+							case 3:
+
+								if (this.meta.current_page < this.meta.last_page) {
+									this.comments.pop();
+								}
+
+							case 4:
+							case 'end':
+								return _context4.stop();
+						}
+					}
+				}, _callee4, this);
+			}));
+
+			function prepend(_x2) {
+				return _ref4.apply(this, arguments);
+			}
+
+			return prepend;
+		}()
 	},
 
 	mounted: function mounted() {
