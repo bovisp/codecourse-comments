@@ -47361,8 +47361,29 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c("new-comment", { attrs: { endpoint: _vm.endpoint } })],
-    1
+    [
+      _c("new-comment", { attrs: { endpoint: _vm.endpoint } }),
+      _vm._v(" "),
+      _vm.comments.length
+        ? [
+            _c(
+              "ul",
+              { staticClass: "list-unstyled" },
+              _vm._l(_vm.comments, function(comment) {
+                return _c("comment", {
+                  key: comment.id,
+                  attrs: { comment: comment }
+                })
+              })
+            )
+          ]
+        : _c(
+            "div",
+            { staticClass: "alert alert-primary", attrs: { role: "alert" } },
+            [_vm._v("No comments to display")]
+          )
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -47381,14 +47402,39 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewComment__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NewComment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NewComment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewComment__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewComment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewComment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Comment__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Comment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Comment__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -47400,18 +47446,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 
+	data: function data() {
+		return {
+			comments: []
+		};
+	},
+
+
 	components: {
-		NewComment: __WEBPACK_IMPORTED_MODULE_0__NewComment___default.a
+		NewComment: __WEBPACK_IMPORTED_MODULE_1__NewComment___default.a,
+		Comment: __WEBPACK_IMPORTED_MODULE_2__Comment___default.a
 	},
 
 	methods: {
-		prependComment: function prependComment(comment) {
+		fetch: function () {
+			var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+				var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+				var response;
+				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								_context.next = 2;
+								return axios.get(this.endpoint + '?page=' + page);
+
+							case 2:
+								response = _context.sent;
+
+
+								this.comments = response.data.data;
+
+							case 4:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
+
+			function fetch() {
+				return _ref.apply(this, arguments);
+			}
+
+			return fetch;
+		}(),
+		prepend: function prepend(comment) {
 			console.log(comment);
 		}
 	},
 
 	mounted: function mounted() {
-		window.events.$on('comment:stored', this.prependComment);
+		this.fetch(1);
+
+		window.events.$on('comment:stored', this.prepend);
 	}
 });
 
@@ -48464,6 +48551,137 @@ if (hadRuntime) {
   (function() { return this })() || Function("return this")()
 );
 
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(40)
+/* script */
+var __vue_script__ = __webpack_require__(59)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/comments/Comment.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-62ce996f", Component.options)
+  } else {
+    hotAPI.reload("data-v-62ce996f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("li", { staticClass: "media my-4" }, [
+    _c("img", {
+      staticClass: "mr-3",
+      attrs: {
+        src: _vm.comment.user.avatar,
+        alt: "`Avatar for ${comment.user}`"
+      }
+    }),
+    _vm._v(" "),
+    _c("div", { staticClass: "media-body" }, [
+      _c("p", { staticClass: "mb-2" }, [
+        _c("strong", { staticClass: "mr-2" }, [
+          _vm._v("\n\t\t\t\t" + _vm._s(_vm.comment.user.name) + "\n\t\t\t")
+        ]),
+        _vm._v(" "),
+        _c("small", { staticClass: "text-muted" }, [
+          _vm._v("\n\t\t\t\t" + _vm._s(_vm.comment.created_at) + "\n\t\t\t")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("p", [_vm._v("\n\t\t\t" + _vm._s(_vm.comment.body) + "\n\t\t")])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-62ce996f", module.exports)
+  }
+}
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		comment: {
+			required: true,
+			type: Object
+		}
+	}
+});
 
 /***/ })
 /******/ ]);
