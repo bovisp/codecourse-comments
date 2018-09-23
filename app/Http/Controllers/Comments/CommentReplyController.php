@@ -11,7 +11,6 @@ class CommentReplyController extends Controller
 {
     public function store(Comment $comment, Request $request)
     {
-    	\Auth::loginUsingId(1);
     	$this->authorize('reply', $comment);
 
     	$request->validate([

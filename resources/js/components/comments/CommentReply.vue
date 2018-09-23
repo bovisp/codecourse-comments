@@ -58,8 +58,15 @@
 		},
 
 		methods: {
-			store () {
-				console.log(this.form)
+			async store () {
+				let reply = await axios.post(`/comments/${this.comment.id}/replies`, this.form)
+
+				window.events.$emit('comment:replied', {
+					comment: this.comment,
+					reply: reply.data.data
+				})
+
+				this.cancel()
 			},
 
 			cancel () {

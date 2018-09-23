@@ -92,6 +92,10 @@
 				}
 			},
 
+			append ({ comment, reply }) {
+				_.find(this.comments, { id: comment.id }.children.push(reply))
+			},
+
 			setReplying (comment) {
 				this.reply = comment
 			}
@@ -105,6 +109,8 @@
 			window.events.$on('comment:reply', this.setReplying)
 
 			window.events.$on('comment:reply-cancelled', () => this.reply = null)
+
+			winndow.events.$on('comment:replied', this.append)
 		}
 	}
 </script>
