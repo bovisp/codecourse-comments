@@ -36,11 +36,6 @@ class User extends Authenticatable
 
     public function avatar()
     {
-        return 'https://www.gravatar.com/avatar/' . md5($this->email()) . '?s=45&d=mm';
-    }
-
-    protected function email()
-    {
-        return 'paulbovisblahblah@gmail.com';
+        return 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=45&d=mm';
     }
 }

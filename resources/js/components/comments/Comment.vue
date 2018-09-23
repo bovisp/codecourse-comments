@@ -21,16 +21,31 @@
 				</small>
 			</p>
 
-			<p>
-				{{ comment.body }}
-			</p>
+			<template v-if="editing">
+				<comment-edit :comment="comment" />
+			</template>
 
-			<ul class="list-inline" v-if="links && user.authenticated">
+			<template v-else>
+				<p>
+					{{ comment.body }}
+				</p>
+			</template>
+
+			
+
+			<ul class="list-inline" v-if="links && user.authenticated && !editing">
 				<li class="list-inline-item" v-if="!comment.child">
 					<button
 						class="btn btn-link"
 						@click.prevent="reply"
 					>Reply</button>
+				</li>
+
+				<li class="list-inline-item" v-if="comment.owner">
+					<button
+						class="btn btn-link"
+						@click.prevent="editing = true"
+					>Edit</button>
 				</li>
 			</ul>
 
@@ -49,6 +64,7 @@
 
 <script>
 	import Comment from './Comment'
+	import CommentEdit from './CommentEdit'
 
 	export default {
 		name: 'comment',
@@ -66,13 +82,28 @@
 		},
 
 		components: {
-			Comment
+			Comment,
+			CommentEdit
+		},
+
+		data () {
+			return {
+				editing: false
+			}
 		},
 
 		methods: {
 			reply () {
 				window.events.$emit('comment:reply', this.comment)
 			}
+		},
+
+		mounted () {
+			window.events.$on('comment:edit-cancelled', (comment) => {
+				if (comment.id === this.comment.id) {
+					this.editing = false
+				}
+			})
 		}
 	}
 </script>
