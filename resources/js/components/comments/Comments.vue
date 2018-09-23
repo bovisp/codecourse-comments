@@ -1,35 +1,42 @@
 <template>
 	<div>
-		<h3 class="mb-5">{{ meta.total }} comments</h3>
-
-		<new-comment :endpoint="endpoint" />
-
-		<template v-if="comments.length">
-			<ul class="list-unstyled">
-				<comment 
-					v-for="comment in comments"
-					:key="comment.id"
-					:comment="comment"
-				/>
-			</ul>
+		<template v-if="reply">
+			<comment-reply :comment="reply" />
 		</template>
 
-		<div 
-			class="alert alert-primary" 
-			role="alert"
-			v-else
-		>No comments to display</div>
+		<template v-else>
+			<h3 class="mb-5">{{ meta.total }} comments</h3>
 
-		<button 
-			class="btn btn-light btn-block"
-			@click.prevent="more"
-			v-if="meta.current_page < meta.last_page"
-		>Show more</button>
+			<new-comment :endpoint="endpoint" />
+
+			<template v-if="comments.length">
+				<ul class="list-unstyled">
+					<comment 
+						v-for="comment in comments"
+						:key="comment.id"
+						:comment="comment"
+					/>
+				</ul>
+			</template>
+
+			<div 
+				class="alert alert-primary" 
+				role="alert"
+				v-else
+			>No comments to display</div>
+
+			<button 
+				class="btn btn-light btn-block"
+				@click.prevent="more"
+				v-if="meta.current_page < meta.last_page"
+			>Show more</button>
+		</template>
 	</div>
 </template>
 
 <script>
 	import NewComment from './NewComment'
+	import CommentReply from './CommentReply'
 	import Comment from './Comment'
 
 	export default {
@@ -43,13 +50,15 @@
 		data () {
 			return {
 				comments: [],
-				meta: {}
+				meta: {},
+				reply: null
 			}
 		},
 
 		components: {
 			NewComment,
-			Comment
+			Comment,
+			CommentReply
 		},
 
 		methods: {
@@ -81,6 +90,10 @@
 				if (this.meta.current_page < this.meta.last_page) {
 					this.comments.pop();
 				}
+			},
+
+			setReplying (comment) {
+				this.reply = comment
 			}
 		},
 
@@ -88,6 +101,10 @@
 			this.fetch(1)
 
 			window.events.$on('comment:stored', this.prepend)
+
+			window.events.$on('comment:reply', this.setReplying)
+
+			window.events.$on('comment:reply-cancelled', () => this.reply = null)
 		}
 	}
 </script>
