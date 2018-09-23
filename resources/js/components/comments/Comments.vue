@@ -7,7 +7,10 @@
 		<template v-else>
 			<h3 class="mb-5">{{ meta.total }} comments</h3>
 
-			<new-comment :endpoint="endpoint" />
+			<new-comment 
+				:endpoint="endpoint" 
+				v-if="user.authenticated"
+			/>
 
 			<template v-if="comments.length">
 				<ul class="list-unstyled">

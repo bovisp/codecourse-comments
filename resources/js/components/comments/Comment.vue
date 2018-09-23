@@ -25,7 +25,7 @@
 				{{ comment.body }}
 			</p>
 
-			<ul class="list-inline" v-if="links">
+			<ul class="list-inline" v-if="links && user.authenticated">
 				<li class="list-inline-item" v-if="!comment.child">
 					<button
 						class="btn btn-link"

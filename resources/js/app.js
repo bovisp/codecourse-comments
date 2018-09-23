@@ -1,3 +1,5 @@
+import user from './mixins/user'
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -18,6 +20,8 @@ window.events = new Vue();
  */
 
 Vue.component('comments', require('./components/comments/Comments.vue')); 
+
+Vue.mixin(user)
 
 const app = new Vue({
     el: '#app'
