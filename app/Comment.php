@@ -17,7 +17,8 @@ class Comment extends Model
 
     public function children()
     {
-    	return $this->hasmany(Comment::class, 'parent_id', 'id');
+    	return $this->hasmany(Comment::class, 'parent_id', 'id')
+            ->orderBy('created_at', 'asc');
     }
 
     public function commentable()

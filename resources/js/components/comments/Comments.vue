@@ -38,6 +38,7 @@
 	import NewComment from './NewComment'
 	import CommentReply from './CommentReply'
 	import Comment from './Comment'
+	import VueScrollTo from 'vue-scrollto'
 
 	export default {
 		props: {
@@ -92,12 +93,18 @@
 				}
 			},
 
-			append ({ comment, reply }) {
-				_.find(this.comments, { id: comment.id }.children.push(reply))
+			append (comment, reply) {
+				let commentToAppend = _.find(this.comments, { 'id': comment.id })
+
+				commentToAppend.children.push(reply)
 			},
 
 			setReplying (comment) {
 				this.reply = comment
+			},
+
+			scrollToComment (reply) {
+				setTimeout(() => VueScrollTo.scrollTo(`#comment-${reply.id}`, 500), 200)
 			}
 		},
 
@@ -110,7 +117,11 @@
 
 			window.events.$on('comment:reply-cancelled', () => this.reply = null)
 
-			winndow.events.$on('comment:replied', this.append)
+			window.events.$on('comment:replied', ({ comment, reply}) => {
+				this.append(comment, reply)
+
+				this.scrollToComment(reply)
+			})
 		}
 	}
 </script>

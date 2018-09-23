@@ -2,7 +2,7 @@
 	<div>
 		<comment :comment="comment" :links="false" />
 
-		<form @submit.prevent="store">
+		<form @submit.prevent="store" id="reply">
 			<div class="form-group">
 				<label for="body">Comment</label>
 
@@ -36,6 +36,7 @@
 
 <script>
 	import Comment from './Comment'
+	import VueScrollTo from 'vue-scrollto'
 
 	export default {
 		props: {
@@ -72,6 +73,10 @@
 			cancel () {
 				window.events.$emit('comment:reply-cancelled')
 			}
+		},
+
+		mounted () {
+			VueScrollTo.scrollTo('#reply', 500)
 		}
 	}
 </script>

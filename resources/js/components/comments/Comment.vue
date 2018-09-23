@@ -1,5 +1,5 @@
 <template>
-	<li class="media my-4">
+	<li class="media my-4" :id="`comment-${comment.id}`">
 		<img 
 		:src="comment.user.avatar" 
 			alt="`Avatar for ${comment.user}`"
