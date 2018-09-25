@@ -129,6 +129,22 @@
 				}
 
 				_.assign(_.find(this.comments, { id: comment.id }), comment)
+			},
+
+			deleteComment (comment) {
+				if (comment.child) {
+					let parentComment = _.find(this.comments, { id: comment.parent_id })
+
+					parentComment.children = parentComment.children.filter(child => {
+						return child.id !== comment.id
+					})
+
+					return
+				}
+
+				this.comments = this.comments.filter(comnt => comnt.id !== comment.id)
+
+				this.meta.total--
 			}
 		},
 
@@ -148,6 +164,8 @@
 			})
 
 			window.events.$on('comment:edited', this.editComment)
+
+			window.events.$on('comment:deleted', this.deleteComment)
 		}
 	}
 </script>

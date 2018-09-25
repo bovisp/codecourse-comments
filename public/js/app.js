@@ -65717,6 +65717,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			}
 
 			_.assign(_.find(this.comments, { id: comment.id }), comment);
+		},
+		deleteComment: function deleteComment(comment) {
+			if (comment.child) {
+				var parentComment = _.find(this.comments, { id: comment.parent_id });
+
+				parentComment.children = parentComment.children.filter(function (child) {
+					return child.id !== comment.id;
+				});
+
+				return;
+			}
+
+			this.comments = this.comments.filter(function (comnt) {
+				return comnt.id !== comment.id;
+			});
+
+			this.meta.total--;
 		}
 	},
 
@@ -65743,6 +65760,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 		});
 
 		window.events.$on('comment:edited', this.editComment);
+
+		window.events.$on('comment:deleted', this.deleteComment);
 	}
 });
 
@@ -67101,7 +67120,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 						switch (_context.prev = _context.next) {
 							case 0:
 								if (!confirm('Are you sure you want to delete this comment?')) {
-									_context.next = 3;
+									_context.next = 4;
 									break;
 								}
 
@@ -67109,6 +67128,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 								return axios.delete('/comments/' + this.comment.id);
 
 							case 3:
+
+								window.events.$emit('comment:deleted', this.comment);
+
+							case 4:
 							case 'end':
 								return _context.stop();
 						}

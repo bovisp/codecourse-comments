@@ -118,6 +118,8 @@
 			async destroy () {
 				if(confirm('Are you sure you want to delete this comment?')) {
 					await axios.delete(`/comments/${this.comment.id}`)
+
+					window.events.$emit('comment:deleted', this.comment)
 				}
 			}
 		},
