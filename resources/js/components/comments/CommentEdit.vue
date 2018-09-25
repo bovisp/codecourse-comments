@@ -49,8 +49,12 @@
 				window.events.$emit('comment:edit-cancelled', this.comment)
 			},
 
-			patch () {
-				console.log(this.form)
+			async patch () {
+				let comment = await axios.patch(`/comments/${this.comment.id}`, this.form)
+
+				window.events.$emit('comment:edited', comment.data.data)
+
+				this.cancel()
 			}
 		}
 	}

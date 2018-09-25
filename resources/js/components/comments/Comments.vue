@@ -96,8 +96,12 @@
 				}
 			},
 
-			append (comment, reply) {
+			append (comment, reply) {				
 				let commentToAppend = _.find(this.comments, { 'id': comment.id })
+
+				if (!commentToAppend.children) {
+					commentToAppend.children = []
+				}
 
 				commentToAppend.children.push(reply)
 			},
@@ -108,6 +112,23 @@
 
 			scrollToComment (reply) {
 				setTimeout(() => VueScrollTo.scrollTo(`#comment-${reply.id}`, 500), 200)
+			},
+
+			editComment (comment) {
+				if (comment.child) {
+					_.assign(
+						_.find(
+							this.comments, { id: comment.parent_id }
+						)
+						.children
+						.find(child => child.id == comment.id),
+						comment
+					)
+
+					return
+				}
+
+				_.assign(_.find(this.comments, { id: comment.id }), comment)
 			}
 		},
 
@@ -125,6 +146,8 @@
 
 				this.scrollToComment(reply)
 			})
+
+			window.events.$on('comment:edited', this.editComment)
 		}
 	}
 </script>

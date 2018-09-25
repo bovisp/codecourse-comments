@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Comments;
 
-use Illuminate\Http\Request;
+use App\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -13,7 +14,7 @@ class CommentController extends Controller
     	$this->authorize('update', $comment);
     	
     	$request->validate([
-    		'body' => 'required?max:5000'
+    		'body' => 'required|max:5000'
     	]);
 
     	$comment->update([
