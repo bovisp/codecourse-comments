@@ -65564,6 +65564,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 	},
 
 	methods: {
+		fetchComments: function fetchComments() {
+			var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+			return axios.get(this.endpoint + '?page=' + page);
+		},
 		fetch: function () {
 			var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
 				var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
@@ -65573,7 +65578,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 						switch (_context.prev = _context.next) {
 							case 0:
 								_context.next = 2;
-								return axios.get(this.endpoint + '?page=' + page);
+								return this.fetchComments(page);
 
 							case 2:
 								response = _context.sent;
@@ -65604,7 +65609,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								_context2.next = 2;
-								return axios.get(this.endpoint + '?page=' + this.meta.current_page);
+								return this.fetchComments(this.meta.current_page);
 
 							case 2:
 								response = _context2.sent;
@@ -65636,7 +65641,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 						switch (_context3.prev = _context3.next) {
 							case 0:
 								_context3.next = 2;
-								return axios.get(this.endpoint + '?page=' + (this.meta.current_page + 1));
+								return this.fetchComments(this.meta.current_page + 1);
 
 							case 2:
 								response = _context3.sent;
@@ -65659,15 +65664,54 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 			return more;
 		}(),
-		prepend: function () {
-			var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4(comment) {
+		loadOneCommentAfterDeletion: function () {
+			var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+				var response;
 				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
 					while (1) {
 						switch (_context4.prev = _context4.next) {
 							case 0:
+								if (!(this.meta.current_page >= this.meta.last_page)) {
+									_context4.next = 2;
+									break;
+								}
+
+								return _context4.abrupt('return');
+
+							case 2:
+								_context4.next = 4;
+								return this.fetchComments(this.meta.current_page);
+
+							case 4:
+								response = _context4.sent;
+
+
+								this.comments.push(response.data.data[response.data.data.length - 1]);
+								this.meta = response.data.meta;
+
+							case 7:
+							case 'end':
+								return _context4.stop();
+						}
+					}
+				}, _callee4, this);
+			}));
+
+			function loadOneCommentAfterDeletion() {
+				return _ref4.apply(this, arguments);
+			}
+
+			return loadOneCommentAfterDeletion;
+		}(),
+		prepend: function () {
+			var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5(comment) {
+				return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+					while (1) {
+						switch (_context5.prev = _context5.next) {
+							case 0:
 								this.comments.unshift(comment);
 
-								_context4.next = 3;
+								_context5.next = 3;
 								return this.fetchMeta();
 
 							case 3:
@@ -65678,14 +65722,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 							case 4:
 							case 'end':
-								return _context4.stop();
+								return _context5.stop();
 						}
 					}
-				}, _callee4, this);
+				}, _callee5, this);
 			}));
 
-			function prepend(_x2) {
-				return _ref4.apply(this, arguments);
+			function prepend(_x3) {
+				return _ref5.apply(this, arguments);
 			}
 
 			return prepend;
@@ -65734,6 +65778,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			});
 
 			this.meta.total--;
+
+			this.loadOneCommentAfterDeletion();
 		}
 	},
 
@@ -65750,9 +65796,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 			return _this.reply = null;
 		});
 
-		window.events.$on('comment:replied', function (_ref5) {
-			var comment = _ref5.comment,
-			    reply = _ref5.reply;
+		window.events.$on('comment:replied', function (_ref6) {
+			var comment = _ref6.comment,
+			    reply = _ref6.reply;
 
 			_this.append(comment, reply);
 

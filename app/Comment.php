@@ -22,6 +22,12 @@ class Comment extends Model
         static::updating(function ($comment) {
             $comment->edited_at = Carbon::now();
         });
+
+        static::deleting(function ($comment) {
+            if (!$comment->parent_id) {
+                $comment->children->each->delete();
+            }
+        });
     }
 
     public function user()

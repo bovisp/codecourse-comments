@@ -66,23 +66,38 @@
 		},
 
 		methods: {
+			fetchComments(page = 1) {
+				return axios.get(`${this.endpoint}?page=${page}`)
+			},
+
 			async fetch (page = 1) {
-				let response = await axios.get(`${this.endpoint}?page=${page}`)
+				let response = await this.fetchComments(page)
 
 				this.comments = response.data.data
 				this.meta = response.data.meta
 			},
 
 			async fetchMeta () {
-				let response = await axios.get(`${this.endpoint}?page=${this.meta.current_page}`)
+				let response = await this.fetchComments(this.meta.current_page)
 
 				this.meta = response.data.meta
 			},
 
 			async more () {
-				let response = await axios.get(`${this.endpoint}?page=${this.meta.current_page + 1}`)
+				let response = await this.fetchComments(this.meta.current_page + 1)
 
 				this.comments.push(...response.data.data)
+				this.meta = response.data.meta
+			},
+
+			async loadOneCommentAfterDeletion () {
+				if (this.meta.current_page >= this.meta.last_page) {
+					return
+				}
+
+				let response = await this.fetchComments(this.meta.current_page)
+
+				this.comments.push(response.data.data[response.data.data.length - 1])
 				this.meta = response.data.meta
 			},
 
@@ -145,6 +160,8 @@
 				this.comments = this.comments.filter(comnt => comnt.id !== comment.id)
 
 				this.meta.total--
+
+				this.loadOneCommentAfterDeletion()
 			}
 		},
 
