@@ -25,7 +25,8 @@ class CommentResource extends JsonResource
             ),
             'owner' => optional($request->user())->id === $this->user_id,
             'user' => new UserResource($this->user),
-            'created_at' => $this->created_at->diffForHumans()
+            'created_at' => $this->created_at->diffForHumans(),
+            'edited' => optional($this->edited_at)->diffForHumans()
         ];
     }
 }

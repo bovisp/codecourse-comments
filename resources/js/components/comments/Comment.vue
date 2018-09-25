@@ -18,6 +18,10 @@
 					</span>
 
 					{{ comment.created_at }}
+
+					<span v-if="comment.edited">
+						| edited {{ comment.edited }}
+					</span>
 				</small>
 			</p>
 
