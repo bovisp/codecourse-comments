@@ -30,9 +30,7 @@
 			</template>
 
 			<template v-else>
-				<p>
-					{{ comment.body }}
-				</p>
+				<div v-html="body"></div>
 			</template>
 
 			
@@ -69,6 +67,7 @@
 <script>
 	import Comment from './Comment'
 	import CommentEdit from './CommentEdit'
+	import marked from 'marked'
 
 	export default {
 		name: 'comment',
@@ -93,6 +92,12 @@
 		data () {
 			return {
 				editing: false
+			}
+		},
+
+		computed: {
+			body () {
+				return marked(this.comment.body, { sanitize: true })
 			}
 		},
 
