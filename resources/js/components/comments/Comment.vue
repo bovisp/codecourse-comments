@@ -30,7 +30,7 @@
 			</template>
 
 			<template v-else>
-				<div v-html="body"></div>
+				<div v-html="body" v-highlightjs></div>
 			</template>
 
 			

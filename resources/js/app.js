@@ -1,5 +1,5 @@
 import user from './mixins/user'
-
+import highlightjs from './directives/highlight'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -22,6 +22,8 @@ window.events = new Vue();
 Vue.component('comments', require('./components/comments/Comments.vue')); 
 
 Vue.mixin(user)
+
+Vue.directive('highlightjs', highlightjs)
 
 const app = new Vue({
     el: '#app'
