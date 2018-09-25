@@ -2,7 +2,7 @@
 	<form @submit.prevent="patch">
 		<div class="form-group">
 			<textarea
-				rows="10"
+				:rows="textareaHeight"
 				class="form-control"
 				autofocus="autofocus"
 				v-model="form.body"
@@ -41,6 +41,15 @@
 				form: {
 					body: this.comment.body
 				}
+			}
+		},
+
+		computed: {
+			textareaHeight () {
+				return Math.max(
+					Math.floor(this.comment.body.split(/\r*\n/).length / 2),
+					6
+				)
 			}
 		},
 

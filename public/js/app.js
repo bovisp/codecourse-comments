@@ -49622,6 +49622,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 	},
 
 
+	computed: {
+		textareaHeight: function textareaHeight() {
+			return Math.max(Math.floor(this.comment.body.split(/\r*\n/).length / 2), 6);
+		}
+	},
+
 	methods: {
 		cancel: function cancel() {
 			window.events.$emit('comment:edit-cancelled', this.comment);
@@ -49691,7 +49697,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { rows: "10", autofocus: "autofocus" },
+          attrs: { rows: _vm.textareaHeight, autofocus: "autofocus" },
           domProps: { value: _vm.form.body },
           on: {
             input: function($event) {
