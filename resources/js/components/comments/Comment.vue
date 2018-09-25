@@ -43,12 +43,21 @@
 					>Reply</button>
 				</li>
 
-				<li class="list-inline-item" v-if="comment.owner">
-					<button
-						class="btn btn-link"
-						@click.prevent="editing = true"
-					>Edit</button>
-				</li>
+				<template v-if="comment.owner">
+					<li class="list-inline-item">
+						<button
+							class="btn btn-link"
+							@click.prevent="editing = true"
+						>Edit</button>
+					</li>
+
+					<li class="list-inline-item">
+						<button
+							class="btn btn-link text-danger"
+							@click.prevent="destroy"
+						>Delete</button>
+					</li>
+				</template>
 			</ul>
 
 			<template v-if="comment.children">
@@ -104,6 +113,12 @@
 		methods: {
 			reply () {
 				window.events.$emit('comment:reply', this.comment)
+			},
+
+			async destroy () {
+				if(confirm('Are you sure you want to delete this comment?')) {
+					await axios.delete(`/comments/${this.comment.id}`)
+				}
 			}
 		},
 
