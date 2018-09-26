@@ -5,7 +5,7 @@
 		</template>
 
 		<template v-else>
-			<h3 class="mb-5">{{ meta.total }} comments</h3>
+			<h3 class="mb-5">{{ meta.total }} {{ pluralize('comment', meta.total) }}</h3>
 
 			<new-comment 
 				:endpoint="endpoint" 

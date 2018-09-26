@@ -1,4 +1,5 @@
 import user from './mixins/user'
+import pluralize from './mixins/pluralize'
 import highlightjs from './directives/highlight'
 
 /**
@@ -22,6 +23,7 @@ window.events = new Vue();
 Vue.component('comments', require('./components/comments/Comments.vue')); 
 
 Vue.mixin(user)
+Vue.mixin(pluralize)
 
 Vue.directive('highlightjs', highlightjs)
 
